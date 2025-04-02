@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom animation for audio progress bar */
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.animate-progress {
+  animation: progress 60s linear forwards;
+}
+
+/* Audio visualizer */
+.audio-visualizer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 30px;
+}
+
+.audio-bar {
+  width: 3px;
+  height: 5px;
+  background-color: var(--highlight);
+  border-radius: 1px;
+  transition: height 0.2s ease;
+}
+
+.audio-visualizer.playing .audio-bar {
+  animation: barHeight 1.5s infinite;
+}
+
+@keyframes barHeight {
+  0%, 100% { height: 5px; }
+  50% { height: 20px; }
+}
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 98%;
+    
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 242 47.4% 34.2%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 226 29% 43%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 223 47% 11%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 0 69% 27%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 226 29% 30%;
+    --input: 226 29% 30%;
+    --ring: 242.2 47.4% 34.2%;
+    
+    --radius: 0.5rem;
+    
+    --chart-1: 51 90% 40%;
+    --chart-2: 242 47.4% 34.2%;
+    --chart-3: 0 69% 27%;
+    --chart-4: 226 29% 43%;
+    --chart-5: 271 91% 65%;
+    
+    --sidebar-background: 222 47% 9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 242 47.4% 34.2%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 69% 27%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 226 29% 20%;
+    --sidebar-ring: 242.2 47.4% 34.2%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    @apply font-sans antialiased bg-background text-foreground;
+    background-image: radial-gradient(circle at 10% 20%, rgba(15, 12, 41, 0.8) 0%, rgba(48, 43, 99, 0.3) 90%),
+                      url('https://images.unsplash.com/photo-1604076913837-52ab5629fba9?auto=format&fit=crop&w=1920&q=80');
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-accent {
+    font-family: 'Pirata One', cursive;
+  }
+}
+
+@layer utilities {
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .scrollbar-custom::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    @apply bg-secondary rounded-sm;
+  }
+  
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent;
+  }
+  
+  .genre-icon {
+    filter: drop-shadow(0 0 8px rgba(199, 160, 3, 0.6));
+  }
+  
+  .audio-visualizer {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  
+  .audio-bar {
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to top, theme('colors.accent'), theme('colors.chart.1'));
+    border-radius: 3px;
+    animation: equalizer 1s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  
+  .playing .audio-bar {
+    animation-play-state: running;
+  }
+  
+  @keyframes equalizer {
+    0%, 100% { height: 30%; }
+    50% { height: 100%; }
+  }
+  
+  .audio-bar:nth-child(1) { animation-delay: -0.8s; }
+  .audio-bar:nth-child(2) { animation-delay: -0.7s; }
+  .audio-bar:nth-child(3) { animation-delay: -0.6s; }
+  .audio-bar:nth-child(4) { animation-delay: -0.5s; }
+  .audio-bar:nth-child(5) { animation-delay: -0.4s; }
+  .audio-bar:nth-child(6) { animation-delay: -0.3s; }
+  .audio-bar:nth-child(7) { animation-delay: -0.2s; }
+  .audio-bar:nth-child(8) { animation-delay: -0.1s; }
+  
+  /* Story card styling */
+  .story-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(15, 12, 41, 0.9) 0%, rgba(48, 43, 99, 0.3) 100%);
+    z-index: 1;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+  
+  .story-card:hover::before {
+    opacity: 0.4;
+  }
+  
+  .story-card-content {
+    z-index: 2;
+    transition: transform 0.3s ease;
+  }
+  
+  .story-card:hover .story-card-content {
+    transform: translateY(-5px);
+  }
+  
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
